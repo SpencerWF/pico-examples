@@ -3,8 +3,8 @@
 #include "pico/stdlib.h"
 #include "pio_i2c.h"
 
-#define PIN_SDA 2
-#define PIN_SCL 3
+#define PIN_SDA 4
+#define PIN_SCL 5
 
 bool reserved_addr(uint8_t addr) {
     return (addr & 0x78) == 0 || (addr & 0x78) == 0x78;

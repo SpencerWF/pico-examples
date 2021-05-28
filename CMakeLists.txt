@@ -16,6 +16,10 @@ include(example_auto_set_url.cmake)
 # Add blink example
 add_subdirectory(blink)
 
+# Add personal example
+add_subdirectory(blink_led)
+add_subdirectory(temp_tracker)
+
 # Add hello world example
 add_subdirectory(hello_world)
 
