@@ -61,13 +61,13 @@ int main() {
             // transferred. If the address byte is ignored, the function returns
             // -1.
 
-            // Skip over any reserved addresses.
-            int ret;
-            uint8_t rxdata;
-            if (reserved_addr(addr))
-                ret = PICO_ERROR_GENERIC;
-            else
-                ret = i2c_read_blocking(i2c0, addr, &rxdata, 1, false);
+        // Skip over any reserved addresses.
+        int ret;
+        uint8_t rxdata;
+        if (reserved_addr(addr))
+            ret = PICO_ERROR_GENERIC;
+        else
+            ret = i2c_read_blocking(i2c_default, addr, &rxdata, 1, false);
 
             printf(ret < 0 ? "." : "@");
             printf(addr % 16 == 15 ? "\n" : "  ");
