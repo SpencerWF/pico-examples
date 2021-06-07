@@ -6,7 +6,7 @@
 // Includes
 // #include si7021_picopi.
 
-#define SI7021_DEFAULT_ADDRESS 0X40
+#define SI7021_DEFAULT_ADDRESS 0x40
 #define SI7021_I2C_BAUDRATE (100*1000)
 #define SI7021_MEASRH_HOLD_CMD                                                 \
   0xE5 /**< Measure Relative Humidity, Hold Master Mode */
@@ -50,19 +50,20 @@ enum si_heatLevel {
   SI_HEATLEVEL_HIGHEST = 0x0F,
 };
 
-typedef struct {
-  i2c_inst_t* inst;
-  uint8_t i2c_addr;
+struct Pico_Si7021{
+  i2c_inst_t *inst;
+  int i2c_addr;
   uint8_t sernum_a;
   uint8_t sernum_b;
-  uint8_t *data_out;
-  volatile uint8_t data_in;
-  volatile uint8_t revision;
-}Pico_Si7021;
+  uint8_t data_out[2];
+  uint8_t data_in;
+  uint8_t revision;
+};
 
-uint8_t si7021_init(Pico_Si7021*, i2c_inst_t*);
-float si7021_read_humidity(Pico_Si7021*);
-static void si7021_read_revision(Pico_Si7021*);
+uint8_t si7021_init(struct Pico_Si7021 *self, i2c_inst_t *i2c_i);
+uint16_t si7021_read_humidity(struct Pico_Si7021* self);
+float si7021_read_temperature(struct Pico_Si7021 *self);
+static void si7021_read_revision(struct Pico_Si7021* self);
 
 
 // /*!

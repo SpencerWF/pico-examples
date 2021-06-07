@@ -33,26 +33,10 @@ bool reserved_addr(uint8_t addr) {
     return (addr & 0x78) == 0 || (addr & 0x78) == 0x78;
 }
 
-// // uint8_t *p;
-// uint8_t b = 1;
-// uint8_t a = 40;I
-// uint8_t *p = &a;
-// uint test = 3;
-// // int least = *p;
-// // least++;
-
-// int *ptr;
-
-// *ptr = (int *)0x67a9;
-
-// int square(volatile int *ptr)
-// {
-//     return *ptr * *ptr;
-// }
-
-
-// *ptr = 0xaa55;
-Pico_Si7021 *sensor_i2c;
+struct Pico_Si7021 sensor_i2c;
+uint16_t data_buffer;
+float temp_float;
+uint8_t temp_out;
 
 int main() {
 #ifndef PICO_DEFAULT_LED_PIN
@@ -64,19 +48,22 @@ int main() {
     // printf("Author - Spencer Walker-Fooks\n");
     // sleep_ms(10000);
     stdio_init_all();
-    sleep_ms(5000);
-    si7021_init(sensor_i2c, i2c0);
+    sleep_ms(2000);
+    si7021_init(&sensor_i2c, i2c_default);
+    // printf("\nRevision: %d", sensor_i2c->revision);
 
     const uint LED_PIN = PICO_DEFAULT_LED_PIN;
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
+
     while (true) {
         gpio_put(LED_PIN, 1);
-        si7021_read_humidity(sensor_i2c);
-        printf("Humidity: %d\n", sensor_i2c->data_out);
-        sleep_ms(5000);
+        temp_float = si7021_read_temperature(&sensor_i2c);
+
+        printf("\nTemperature: %.2f", temp_float);
+        sleep_ms(500);
         gpio_put(LED_PIN, 0);
-        sleep_ms(5000);
+        sleep_ms(500);
         // test = test+test;
         // printf("Test value: %d\n", *ptr);
     }
